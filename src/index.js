@@ -6,6 +6,7 @@ import Canvas from './components/Canvas';
 const view = (state, actions) => {
   return (
     <div>
+      <span>use WASD</span>
       <Canvas {...state} {...actions} />
     </div>
   );
