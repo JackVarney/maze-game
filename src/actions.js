@@ -1,5 +1,8 @@
+import { generateMaze } from './lib/maze';
+import { X, Y } from './lib/canvasConfig';
+
 export default {
-  toggleShouldDrawMaze: () => ({ shouldDrawMaze }) => ({
-    shouldDrawMaze: !shouldDrawMaze
-  })
+  generateMaze: () => () => ({
+    maze: generateMaze(X, Y),
+  }),
 };

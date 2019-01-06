@@ -1,14 +1,7 @@
 import { SQUARE_SIZE, X, Y } from './canvasConfig';
-import { drawPlayer } from './player';
+import { initializePlayer } from './player';
 
-function drawMaze() {
-  const maze = generateMaze(X, Y);
-
-  const canvas = document.getElementById('canvas');
-  canvas.width = X * SQUARE_SIZE;
-  canvas.height = Y * SQUARE_SIZE;
-
-  const context = canvas.getContext('2d');
+function drawMaze(context, maze) {
   context.lineWidth = 2;
 
   function drawLine(moveToX, moveToY, lineToX, lineToY) {
@@ -24,7 +17,7 @@ function drawMaze() {
           colIndex * SQUARE_SIZE,
           rowIndex * SQUARE_SIZE,
           (colIndex + 1) * SQUARE_SIZE,
-          rowIndex * SQUARE_SIZE
+          rowIndex * SQUARE_SIZE,
         );
       }
 
@@ -33,7 +26,7 @@ function drawMaze() {
           (colIndex + 1) * SQUARE_SIZE,
           rowIndex * SQUARE_SIZE,
           (colIndex + 1) * SQUARE_SIZE,
-          (rowIndex + 1) * SQUARE_SIZE
+          (rowIndex + 1) * SQUARE_SIZE,
         );
       }
 
@@ -42,7 +35,7 @@ function drawMaze() {
           colIndex * SQUARE_SIZE,
           (rowIndex + 1) * SQUARE_SIZE,
           (colIndex + 1) * SQUARE_SIZE,
-          (rowIndex + 1) * SQUARE_SIZE
+          (rowIndex + 1) * SQUARE_SIZE,
         );
       }
 
@@ -51,14 +44,12 @@ function drawMaze() {
           colIndex * SQUARE_SIZE,
           rowIndex * SQUARE_SIZE,
           colIndex * SQUARE_SIZE,
-          (rowIndex + 1) * SQUARE_SIZE
+          (rowIndex + 1) * SQUARE_SIZE,
         );
       }
     });
   });
   context.stroke();
-
-  drawPlayer();
 }
 
 function generateMaze(x, y) {
@@ -86,7 +77,7 @@ function generateMaze(x, y) {
       [currentCellX - 1, currentCellY, 'north', 'south'],
       [currentCellX, currentCellY + 1, 'east', 'west'],
       [currentCellX + 1, currentCellY, 'south', 'north'],
-      [currentCellX, currentCellY - 1, 'west', 'east']
+      [currentCellX, currentCellY - 1, 'west', 'east'],
     ].filter(([potentialX, potentialY]) => {
       const potentialNeighborIsWithinGrid =
         potentialX > -1 && potentialX < y && potentialY > -1 && potentialY < x;
@@ -103,7 +94,7 @@ function generateMaze(x, y) {
         neighboringCellX,
         neighboringCellY,
         currentCellWallPosition,
-        randomCellWallPostion
+        randomCellWallPostion,
       ] = neighboringCells[Math.floor(Math.random() * neighboringCells.length)];
 
       // remove the wall between the current cell and the random cell
@@ -141,11 +132,11 @@ function generateEmptyGrid(x, y) {
         north: true,
         east: true,
         south: true,
-        west: true
+        west: true,
       },
-      toBeVisited: true
-    }))
+      toBeVisited: true,
+    })),
   );
 }
 
-export { drawMaze };
+export { drawMaze, generateMaze };

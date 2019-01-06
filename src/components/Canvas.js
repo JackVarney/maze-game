@@ -1,14 +1,14 @@
 import { h } from 'hyperapp';
-import { drawMaze } from '../lib/maze';
+import { initializeGame } from '../lib/game';
 
-export default ({ shouldDrawMaze, toggleShouldDrawMaze }) => (
+export default ({ generateMaze, maze }) => (
   <canvas
     id="canvas"
     oncreate={() => {
-      if (shouldDrawMaze) {
-        drawMaze();
-        toggleShouldDrawMaze();
-      }
+      generateMaze();
+    }}
+    onupdate={() => {
+      initializeGame(maze);
     }}
   />
 );
