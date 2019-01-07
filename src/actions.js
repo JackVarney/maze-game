@@ -5,10 +5,12 @@ export default {
   generateMaze: () => () => ({
     maze: generateMaze(X, Y)
   }),
-  setResetGame: resetGame => ({ game }) => ({
-    game: {
-      ...game,
-      resetGame
+  setResetGame: resetGame => () => ({
+    resetGame
+  }),
+  alterGold: gold => ({ playerInventory }) => ({
+    playerInventory: {
+      gold: game.playerInventory.gold + gold
     }
   })
 };

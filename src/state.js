@@ -1,6 +1,7 @@
 export default {
   maze: null,
-  game: {
-    resetGame: true
+  resetGame: true,
+  playerInventory: {
+    gold: 0
   }
 };

@@ -16,19 +16,15 @@ async function initializeGame(maze, setResetGame, generateMaze) {
   const onNewFrame = () => {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
-    const isPlayerInMazeEnd =
-      player.coords.x === mazeEnd.coords.x &&
-      player.coords.y === mazeEnd.coords.y;
-
-    if (!isPlayerInMazeEnd) {
+    if (player.hasCollided(mazeEnd.coords)) {
+      generateMaze();
+      setResetGame(true);
+    } else {
       drawMaze(context, maze);
-      player.render();
       mazeEnd.render();
+      player.render();
 
       window.requestAnimationFrame(onNewFrame);
-    } else {
-      setResetGame(true);
-      generateMaze();
     }
   };
 

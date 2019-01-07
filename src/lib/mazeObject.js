@@ -185,6 +185,7 @@ function initializeObject(
     }
   };
 
+  const hasCollided = ({ x, y }) => x === mazeX && y === mazeY;
   const render = () => {
     drawSprite(x, y, spriteSheetX, spriteSheetY);
   };
@@ -195,6 +196,7 @@ function initializeObject(
     moveSouth,
     moveWest,
     render,
+    hasCollided,
     get coords() {
       return {
         x: mazeX,
@@ -204,4 +206,4 @@ function initializeObject(
   };
 }
 
-export { createMazeObject };
+export { createMazeObject, createDrawSpriteFunction };
