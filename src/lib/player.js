@@ -6,7 +6,7 @@ function initializePlayer(context, maze) {
     player => {
       addKeyListeners(player);
       return player;
-    },
+    }
   );
 }
 

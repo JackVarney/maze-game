@@ -2,14 +2,19 @@ import { X, Y, SQUARE_SIZE } from './canvasConfig';
 
 function getDeadEnds(maze) {
   return maze.map(row =>
-    row.map(
-      col =>
-        Object.keys(col).reduce((acc, key) => {
-          if (col[key]) acc += 1;
+    row.map(col => {
+      const columnKeys = Object.keys(col);
 
-          return acc;
-        }, 0) === 3
-    )
+      const numberOfWalls = columnKeys.reduce((wallCount, key) => {
+        if (col[key]) {
+          wallCount += 1;
+        }
+
+        return wallCount;
+      }, 0);
+
+      return numberOfWalls === 3; // a dead end will have 3 walls
+    })
   );
 }
 
@@ -21,7 +26,7 @@ function initializeMazeEnd(context, maze) {
       if (finalValue === undefined && cell) {
         finalValue = {
           x: X - (x + 1),
-          y: Y - (y + 1),
+          y: Y - (y + 1)
         };
       }
     });
@@ -32,14 +37,20 @@ function initializeMazeEnd(context, maze) {
   const render = () => {
     context.fillStyle = '#e91e63';
     context.fillRect(
-      x * SQUARE_SIZE + 2,
-      y * SQUARE_SIZE + 2,
-      SQUARE_SIZE - 4,
-      SQUARE_SIZE - 4
+      x * SQUARE_SIZE + 4,
+      y * SQUARE_SIZE + 4,
+      SQUARE_SIZE - 8,
+      SQUARE_SIZE - 8
     );
   };
 
-  return { render };
+  return {
+    render,
+    coords: {
+      x,
+      y
+    }
+  };
 }
 
 export { initializeMazeEnd };
