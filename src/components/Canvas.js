@@ -1,7 +1,7 @@
 import { h } from 'hyperapp';
 import { initializeGame } from '../lib/game';
 
-export default ({ generateMaze, maze, resetGame, setResetGame }) => (
+export default ({ generateMaze, maze, resetGame, setResetGame, alterGold }) => (
   <canvas
     id="canvas"
     oncreate={() => {
@@ -9,7 +9,7 @@ export default ({ generateMaze, maze, resetGame, setResetGame }) => (
     }}
     onupdate={() => {
       if (resetGame) {
-        initializeGame(maze, setResetGame, generateMaze);
+        initializeGame(maze, setResetGame, generateMaze, alterGold);
         setResetGame(false);
       }
     }}

@@ -1,4 +1,5 @@
 import { SPRITE_X, SPRITE_Y, SQUARE_SIZE } from './canvasConfig';
+import { checkCollision } from './utils';
 
 const createMazeObject = context => (
   maze,
@@ -6,10 +7,17 @@ const createMazeObject = context => (
   mazeX,
   mazeY,
   spriteSheetX,
-  spriteSheetY
+  spriteSheetY,
 ) => {
   return createDrawSpriteFunction(context, spriteSheet).then(drawSprite =>
-    initializeObject(maze, mazeX, mazeY, spriteSheetX, spriteSheetY, drawSprite)
+    initializeObject(
+      maze,
+      mazeX,
+      mazeY,
+      spriteSheetX,
+      spriteSheetY,
+      drawSprite,
+    ),
   );
 };
 
@@ -32,7 +40,7 @@ function createDrawSpriteFunction(context, img) {
       x + xDifference, // x pos on canvas
       y + yDifference, // y pos on canvas
       SPRITE_X, // x distance on canvas
-      SPRITE_Y // y distance on canvas
+      SPRITE_Y, // y distance on canvas
     );
   };
 
@@ -68,7 +76,7 @@ function initializeObject(
   mazeY,
   initialSpriteSheetX,
   initialSpriteSheetY,
-  drawSprite
+  drawSprite,
 ) {
   var canMove = true;
   var x = mazeX * SQUARE_SIZE;
@@ -119,7 +127,7 @@ function initializeObject(
           },
           () => {
             mazeY -= 1;
-          }
+          },
         );
       }
     }
@@ -139,7 +147,7 @@ function initializeObject(
           },
           () => {
             mazeX += 1;
-          }
+          },
         );
       }
     }
@@ -159,7 +167,7 @@ function initializeObject(
           },
           () => {
             mazeY += 1;
-          }
+          },
         );
       }
     }
@@ -179,13 +187,12 @@ function initializeObject(
           },
           () => {
             mazeX -= 1;
-          }
+          },
         );
       }
     }
   };
 
-  const hasCollided = ({ x, y }) => x === mazeX && y === mazeY;
   const render = () => {
     drawSprite(x, y, spriteSheetX, spriteSheetY);
   };
@@ -196,13 +203,14 @@ function initializeObject(
     moveSouth,
     moveWest,
     render,
-    hasCollided,
+    hasCollided: coordsToCheck =>
+      checkCollision(coordsToCheck, { x: mazeX, y: mazeY }),
     get coords() {
       return {
         x: mazeX,
-        y: mazeY
+        y: mazeY,
       };
-    }
+    },
   };
 }
 

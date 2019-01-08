@@ -1,9 +1,9 @@
 import { h } from 'hyperapp';
 
-export default ({ gold }) => {
+export default ({ inventory }) => {
   return (
     <div>
-      <span>Gold: {gold}</span>
+      <span>Gold: {inventory.gold}</span>
     </div>
   );
 };

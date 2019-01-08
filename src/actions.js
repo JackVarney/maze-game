@@ -3,14 +3,14 @@ import { X, Y } from './lib/canvasConfig';
 
 export default {
   generateMaze: () => () => ({
-    maze: generateMaze(X, Y)
+    maze: generateMaze(X, Y),
   }),
   setResetGame: resetGame => () => ({
-    resetGame
+    resetGame,
   }),
-  alterGold: gold => ({ playerInventory }) => ({
-    playerInventory: {
-      gold: game.playerInventory.gold + gold
-    }
-  })
+  alterGold: gold => ({ inventory }) => ({
+    inventory: {
+      gold: inventory.gold + gold,
+    },
+  }),
 };
