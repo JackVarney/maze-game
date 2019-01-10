@@ -31,24 +31,26 @@ function createCoin(context, x, y) {
       render,
       coords,
       hasCollided: coordsToCheck => checkCollision(coordsToCheck, coords),
-      goldAmount: random(10, 50)
+      goldAmount: random(10, 50),
     };
   });
 }
 
 async function initializeCoins(context, deadEnds) {
   const threeQuarters = Math.floor(deadEnds.length * 0.75);
+  var iterations = 0;
+
   const coinLocations = [];
   while (deadEnds.length > threeQuarters) {
     const indexOfElToRemove = random(0, deadEnds.length - 1);
     const elToRemove = deadEnds[indexOfElToRemove];
 
     coinLocations.push(elToRemove);
-    deadEnds.splice(1, indexOfElToRemove);
+    deadEnds.splice(indexOfElToRemove, 1);
   }
 
   coins = await Promise.all(
-    coinLocations.map(({ x, y }) => createCoin(context, x, y))
+    coinLocations.map(({ x, y }) => createCoin(context, x, y)),
   );
 
   return {
@@ -57,12 +59,12 @@ async function initializeCoins(context, deadEnds) {
       checkCollisions,
       render: () => {
         coins.forEach(coin => coin.render());
-      }
-    }
+      },
+    },
   };
 }
 
-function checkCollisions(playerCoords) {
+function checkCollisions(playerCoords, onCollision) {
   const result = coins.reduce(
     (acc, coin) => {
       if (coin.hasCollided(playerCoords)) {
@@ -75,13 +77,12 @@ function checkCollisions(playerCoords) {
     },
     {
       goldToAdd: 0,
-      coins: []
-    }
+      coins: [],
+    },
   );
 
   coins = result.coins;
-
-  return result.goldToAdd;
+  onCollision(result.goldToAdd);
 }
 
 export { initializeCoins };

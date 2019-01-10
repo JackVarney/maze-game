@@ -28,8 +28,7 @@ async function initializeGame(maze, setResetGame, generateMaze, alterGold) {
       generateMaze();
       setResetGame(true);
     } else {
-      var gold = coins.checkCollisions(player.coords);
-      if (gold > 0) alterGold(gold);
+      coins.checkCollisions(player.coords, alterGold);
 
       drawMaze(context, maze);
       render(mazeEnd, coins, player);

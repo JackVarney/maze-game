@@ -8,7 +8,7 @@ function createMazeEnd(context, x, y) {
       x * SQUARE_SIZE + 4,
       y * SQUARE_SIZE + 4,
       SQUARE_SIZE - 8,
-      SQUARE_SIZE - 8
+      SQUARE_SIZE - 8,
     );
   };
 
@@ -16,20 +16,20 @@ function createMazeEnd(context, x, y) {
     render,
     coords: {
       x,
-      y
-    }
+      y,
+    },
   };
 }
 
 function initializeMazeEnd(context, maze) {
   const deadEnds = getDeadEnds(maze);
-  const { x, y } = deadEnds.reverse()[0];
 
+  const { x, y } = deadEnds.reverse()[0];
   deadEnds.shift();
 
   return {
     deadEnds,
-    mazeEnd: createMazeEnd(context, x, y)
+    mazeEnd: createMazeEnd(context, x, y),
   };
 }
 
