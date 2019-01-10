@@ -1,5 +1,4 @@
 import { SQUARE_SIZE, X, Y } from './canvasConfig';
-import { initializePlayer } from './player';
 
 function drawMaze(context, maze) {
   context.lineWidth = 2;
@@ -17,7 +16,7 @@ function drawMaze(context, maze) {
           colIndex * SQUARE_SIZE,
           rowIndex * SQUARE_SIZE,
           (colIndex + 1) * SQUARE_SIZE,
-          rowIndex * SQUARE_SIZE,
+          rowIndex * SQUARE_SIZE
         );
       }
 
@@ -26,7 +25,7 @@ function drawMaze(context, maze) {
           (colIndex + 1) * SQUARE_SIZE,
           rowIndex * SQUARE_SIZE,
           (colIndex + 1) * SQUARE_SIZE,
-          (rowIndex + 1) * SQUARE_SIZE,
+          (rowIndex + 1) * SQUARE_SIZE
         );
       }
 
@@ -35,7 +34,7 @@ function drawMaze(context, maze) {
           colIndex * SQUARE_SIZE,
           (rowIndex + 1) * SQUARE_SIZE,
           (colIndex + 1) * SQUARE_SIZE,
-          (rowIndex + 1) * SQUARE_SIZE,
+          (rowIndex + 1) * SQUARE_SIZE
         );
       }
 
@@ -44,7 +43,7 @@ function drawMaze(context, maze) {
           colIndex * SQUARE_SIZE,
           rowIndex * SQUARE_SIZE,
           colIndex * SQUARE_SIZE,
-          (rowIndex + 1) * SQUARE_SIZE,
+          (rowIndex + 1) * SQUARE_SIZE
         );
       }
     });
@@ -77,7 +76,7 @@ function generateMaze(x, y) {
       [currentCellX - 1, currentCellY, 'north', 'south'],
       [currentCellX, currentCellY + 1, 'east', 'west'],
       [currentCellX + 1, currentCellY, 'south', 'north'],
-      [currentCellX, currentCellY - 1, 'west', 'east'],
+      [currentCellX, currentCellY - 1, 'west', 'east']
     ].filter(([potentialX, potentialY]) => {
       const potentialNeighborIsWithinGrid =
         potentialX > -1 && potentialX < y && potentialY > -1 && potentialY < x;
@@ -94,7 +93,7 @@ function generateMaze(x, y) {
         neighboringCellX,
         neighboringCellY,
         currentCellWallPosition,
-        randomCellWallPostion,
+        randomCellWallPostion
       ] = neighboringCells[Math.floor(Math.random() * neighboringCells.length)];
 
       // remove the wall between the current cell and the random cell
@@ -126,17 +125,42 @@ function generateEmptyGrid(x, y) {
   const yRange = Array.from({ length: y });
   const xRange = Array.from({ length: x });
 
-  return yRange.map(_ =>
-    xRange.map(_ => ({
+  return yRange.map(() =>
+    xRange.map(() => ({
       walls: {
         north: true,
         east: true,
         south: true,
-        west: true,
+        west: true
       },
-      toBeVisited: true,
-    })),
+      toBeVisited: true
+    }))
   );
 }
 
-export { drawMaze, generateMaze };
+function getDeadEnds(maze) {
+  return maze.reduce((deadEnds, row, y) => {
+    const rowsDeadEnds = row.reduce((acc, col, x) => {
+      const columnKeys = Object.keys(col);
+
+      const numberOfWalls = columnKeys.reduce((wallCount, key) => {
+        if (col[key]) {
+          wallCount += 1;
+        }
+
+        return wallCount;
+      }, 0);
+
+      // a dead end will have 3 walls
+      if (numberOfWalls === 3) {
+        acc.push({ x, y });
+      }
+
+      return acc;
+    }, []);
+
+    return [...deadEnds, ...rowsDeadEnds];
+  }, []);
+}
+
+export { drawMaze, generateMaze, getDeadEnds };

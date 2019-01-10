@@ -2,7 +2,7 @@ import spriteSheet from '../../spritesheets/snowmonkey.png';
 import { createMazeObject } from './mazeObject';
 
 function initializePlayer(context, maze) {
-  return createMazeObject(context)(maze, spriteSheet, 0, 0, 1, 0).then(
+  return createMazeObject(context, maze, spriteSheet, 0, 0, 1, 0).then(
     player => {
       addKeyListeners(player);
       return player;
@@ -13,10 +13,10 @@ function initializePlayer(context, maze) {
 // initial press is throttled (doesnt trigger again for half a second)
 // work around for smoother user input
 function addKeyListeners({ moveSouth, moveNorth, moveEast, moveWest }) {
-  var wPressed = null;
-  var dPressed = null;
-  var sPressed = null;
-  var aPressed = null;
+  var upPressed = null;
+  var rightPressed = null;
+  var downPressed = null;
+  var leftPressed = null;
 
   const interval = (pressed, moveFunction) => {
     if (pressed === null) {
@@ -31,19 +31,23 @@ function addKeyListeners({ moveSouth, moveNorth, moveEast, moveWest }) {
   window.addEventListener('keydown', e => {
     switch (e.keyCode) {
       case 87:
-        wPressed = interval(wPressed, moveNorth);
+      case 38:
+        upPressed = interval(upPressed, moveNorth);
         break;
 
       case 68:
-        dPressed = interval(dPressed, moveEast);
+      case 39:
+        rightPressed = interval(rightPressed, moveEast);
         break;
 
       case 83:
-        sPressed = interval(sPressed, moveSouth);
+      case 40:
+        downPressed = interval(downPressed, moveSouth);
         break;
 
       case 65:
-        aPressed = interval(aPressed, moveWest);
+      case 37:
+        leftPressed = interval(leftPressed, moveWest);
         break;
     }
   });
@@ -51,23 +55,27 @@ function addKeyListeners({ moveSouth, moveNorth, moveEast, moveWest }) {
   window.addEventListener('keyup', e => {
     switch (e.keyCode) {
       case 87:
-        clearInterval(wPressed);
-        wPressed = null;
+      case 38:
+        clearInterval(upPressed);
+        upPressed = null;
         break;
 
       case 68:
-        clearInterval(dPressed);
-        dPressed = null;
+      case 39:
+        clearInterval(rightPressed);
+        rightPressed = null;
         break;
 
       case 83:
-        clearInterval(sPressed);
-        sPressed = null;
+      case 40:
+        clearInterval(downPressed);
+        downPressed = null;
         break;
 
       case 65:
-        clearInterval(aPressed);
-        aPressed = null;
+      case 37:
+        clearInterval(leftPressed);
+        leftPressed = null;
         break;
     }
   });
