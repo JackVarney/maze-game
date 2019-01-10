@@ -17,6 +17,8 @@ function drawMaze(context, maze) {
   };
 
   const drawLadder = (x, y, hasLeftPlatform, hasRightPlatform) => {
+    context.globalAlpha = 0.2;
+
     const third = SQUARE_SIZE / 3;
     const twoThirds = third * 2;
     const sixth = third / 2;
@@ -35,9 +37,6 @@ function drawMaze(context, maze) {
       drawLine(endX, yPos, endX + third, yPos);
     }
 
-    context.strokeStyle = blue;
-    context.globalAlpha = 0.4;
-
     drawLine(startX, yPos, startX, yPos + SQUARE_SIZE);
     drawLine(endX, yPos, endX, yPos + SQUARE_SIZE);
 
@@ -46,7 +45,6 @@ function drawMaze(context, maze) {
       yPos += sixth;
     }
 
-    context.strokeStyle = black;
     context.globalAlpha = 1;
   };
 
