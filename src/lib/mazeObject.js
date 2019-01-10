@@ -8,10 +8,17 @@ const createMazeObject = (
   mazeX,
   mazeY,
   spriteSheetX,
-  spriteSheetY
+  spriteSheetY,
 ) => {
   return createDrawSpriteFunction(context, spriteSheet).then(drawSprite =>
-    initializeObject(maze, mazeX, mazeY, spriteSheetX, spriteSheetY, drawSprite)
+    initializeObject(
+      maze,
+      mazeX,
+      mazeY,
+      spriteSheetX,
+      spriteSheetY,
+      drawSprite,
+    ),
   );
 };
 
@@ -21,7 +28,7 @@ function createDrawSpriteFunction(context, img) {
 
   const drawSpriteFunction = (x, y, spriteX, spriteY) => {
     var xDifference = SQUARE_SIZE - SPRITE_X;
-    var yDifference = SQUARE_SIZE - SPRITE_Y - 8;
+    var yDifference = SQUARE_SIZE - SPRITE_Y;
     xDifference /= 2;
     yDifference /= 2;
 
@@ -34,7 +41,7 @@ function createDrawSpriteFunction(context, img) {
       x + xDifference, // x pos on canvas
       y + yDifference, // y pos on canvas
       SPRITE_X, // x distance on canvas
-      SPRITE_Y // y distance on canvas
+      SPRITE_Y, // y distance on canvas
     );
   };
 
@@ -70,7 +77,7 @@ function initializeObject(
   mazeY,
   initialSpriteSheetX,
   initialSpriteSheetY,
-  drawSprite
+  drawSprite,
 ) {
   var canMove = true;
   var x = mazeX * SQUARE_SIZE;
@@ -121,7 +128,7 @@ function initializeObject(
           },
           () => {
             mazeY -= 1;
-          }
+          },
         );
       }
     }
@@ -141,7 +148,7 @@ function initializeObject(
           },
           () => {
             mazeX += 1;
-          }
+          },
         );
       }
     }
@@ -161,7 +168,7 @@ function initializeObject(
           },
           () => {
             mazeY += 1;
-          }
+          },
         );
       }
     }
@@ -181,7 +188,7 @@ function initializeObject(
           },
           () => {
             mazeX -= 1;
-          }
+          },
         );
       }
     }
@@ -202,9 +209,9 @@ function initializeObject(
     get coords() {
       return {
         x: mazeX,
-        y: mazeY
+        y: mazeY,
       };
-    }
+    },
   };
 }
 
