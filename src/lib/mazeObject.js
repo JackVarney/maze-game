@@ -81,7 +81,7 @@ function initializeObject(
 ) {
   var canMove = true;
   var x = mazeX * SQUARE_SIZE;
-  var y = mazeY * SQUARE_SIZE;
+  var y = mazeY * SQUARE_SIZE - 8;
   var spriteSheetX = initialSpriteSheetX;
   var spriteSheetY = initialSpriteSheetY;
 

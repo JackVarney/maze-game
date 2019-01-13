@@ -16,38 +16,6 @@ function drawMaze(context, maze) {
     context.stroke();
   };
 
-  const drawLadder = (x, y, hasLeftPlatform, hasRightPlatform) => {
-    context.globalAlpha = 0.2;
-
-    const third = SQUARE_SIZE / 3;
-    const twoThirds = third * 2;
-    const sixth = third / 2;
-
-    const baseX = x * SQUARE_SIZE;
-    const startX = baseX + third;
-    const endX = baseX + twoThirds;
-
-    var yPos = y * SQUARE_SIZE;
-
-    if (hasLeftPlatform) {
-      drawLine(baseX, yPos, startX, yPos);
-    }
-
-    if (hasRightPlatform) {
-      drawLine(endX, yPos, endX + third, yPos);
-    }
-
-    drawLine(startX, yPos, startX, yPos + SQUARE_SIZE);
-    drawLine(endX, yPos, endX, yPos + SQUARE_SIZE);
-
-    for (var i = 0; i < 6; i += 1) {
-      drawLine(startX, yPos, endX, yPos);
-      yPos += sixth;
-    }
-
-    context.globalAlpha = 1;
-  };
-
   maze.forEach((row, rowIndex) => {
     row.forEach(({ north, east, south, west }, colIndex) => {
       if (north) {
@@ -84,22 +52,6 @@ function drawMaze(context, maze) {
           colIndex * SQUARE_SIZE,
           (rowIndex + 1) * SQUARE_SIZE,
         );
-      }
-
-      if (!north) {
-        const rowAbove = maze[rowIndex - 1];
-
-        if (rowAbove !== undefined) {
-          const topLeft = rowAbove[colIndex - 1];
-          const topRight = rowAbove[colIndex + 1];
-
-          drawLadder(
-            colIndex,
-            rowIndex,
-            topLeft && !topLeft.east,
-            topRight && !topRight.west,
-          );
-        }
       }
     });
   });
